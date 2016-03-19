@@ -41,7 +41,7 @@ public class Global extends GlobalSettings
         // can be called multiple times. The reason for doing during startup is so that the Play configuration is
         // entirely available to this application context.
         ctx.register(SpringDataJpaConfiguration.class);
-        ctx.scan("controllers", "models", "repositories", "security", "services" );
+        ctx.scan("controllers", "models", "repositories", "actions/security", "services" );
 
         ctx.refresh();
         // This will construct the beans and call any construction lifecycle methods e.g. @PostConstruct

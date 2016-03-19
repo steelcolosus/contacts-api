@@ -12,8 +12,8 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import static constants.StatusCode.COULT_NOT_DELETE;
-import static constants.StatusCode.COULT_NOT_UPDATE;
+import static utils.constants.StatusCode.COULT_NOT_DELETE;
+import static utils.constants.StatusCode.COULT_NOT_UPDATE;
 import static play.libs.Json.fromJson;
 import static play.libs.Json.toJson;
 

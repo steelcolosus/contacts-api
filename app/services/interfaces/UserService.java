@@ -1,8 +1,6 @@
 package services.interfaces;
 
-import models.security.Token;
-import models.user.User;
-import org.springframework.transaction.annotation.Transactional;
+import models.db.User;
 import services.base.GenericService;
 
 /**
@@ -12,10 +10,7 @@ public interface UserService extends GenericService<User, Long>
 {
     public User findByEmailAndPassword (String email, String password);
     public Long count ();
-    public User login (User user);
-    public boolean isTokenExpired(Token token);
-    public void logout (Long userId);
-    public User getLoggedInUser ();
     public User finByEmail (String email);
-    public Token getUserToken (User user);
+
+
 }

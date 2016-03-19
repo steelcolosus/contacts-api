@@ -1,19 +1,20 @@
 package controllers;
 
 
-import constants.StatusCode;
+import utils.constants.StatusCode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import dtos.LoginDTO;
-import models.security.Token;
-import models.user.User;
+import models.dtos.LoginDTO;
+import models.db.security.Token;
+import models.db.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-import security.TokenAuth;
-import security.TokenAuthAction;
+import actions.security.TokenAuth;
+import actions.security.TokenAuthAction;
+import services.interfaces.AuthenticationService;
 import services.interfaces.UserService;
 
 import javax.inject.Named;
@@ -24,11 +25,13 @@ import javax.inject.Singleton;
 public class SecurityController extends Controller /* extends Action.Simple */ {
 
     public UserService userService;
+    public AuthenticationService authenticationService;
 
 
     @Autowired
-    public SecurityController(UserService userService) {
+    public SecurityController(UserService userService, AuthenticationService authenticationService) {
         this.userService = userService;
+        this.authenticationService = authenticationService;
     }
 
 
@@ -50,7 +53,7 @@ public class SecurityController extends Controller /* extends Action.Simple */ {
             if (user == null) {
                 return status(StatusCode.BAD_CREDENTIALS);
             } else {
-                return verifyUser(user);
+                return ok();
             }
         }
     }
@@ -72,7 +75,18 @@ public class SecurityController extends Controller /* extends Action.Simple */ {
         if (user == null) {
             return status(StatusCode.BAD_CREDENTIALS);
         } else {
-            return verifyUser(user);
+            user = authenticationService.login(user);
+            if (user == null) {
+                return status(StatusCode.TOKEN_EXPIRED);
+            }
+            Token token = authenticationService.getUserToken(user);
+            ObjectNode authTokenJson = Json.newObject();
+            authTokenJson.put("id", user.getId());
+            authTokenJson.put("name", user.firstName + " " + user.lastName);
+            authTokenJson.put("role", "admin");
+            authTokenJson.put(TokenAuthAction.AUTH_TOKEN, token.getAuthToken());
+            response().setCookie(TokenAuthAction.AUTH_TOKEN, token.getAuthToken());
+            return ok(authTokenJson);
         }
     }
 
@@ -82,25 +96,9 @@ public class SecurityController extends Controller /* extends Action.Simple */ {
     public Result logout() {
         response().discardCookie(TokenAuthAction.AUTH_TOKEN);
         //User user = TokenAuthAction.getUser();
-        User user = userService.getLoggedInUser();
-        userService.logout(user.getId());
+        User user = authenticationService.getLoggedInUser();
+        authenticationService.logout(user.getId());
         return ok("logged out");
-    }
-
-
-    private Result verifyUser(User user) {
-        user = userService.login(user);
-        if (user == null) {
-            return status(StatusCode.TOKEN_EXPIRED);
-        }
-        Token token = userService.getUserToken(user);
-        ObjectNode authTokenJson = Json.newObject();
-        authTokenJson.put("id", user.getId());
-        authTokenJson.put("name", user.firstName + " " + user.lastName);
-        authTokenJson.put("role", "admin");
-        authTokenJson.put(TokenAuthAction.AUTH_TOKEN, token.getAuthToken());
-        response().setCookie(TokenAuthAction.AUTH_TOKEN, token.getAuthToken());
-        return ok(authTokenJson);
     }
 
 

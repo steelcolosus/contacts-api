@@ -1,11 +1,12 @@
 package controllers;
 
 import controllers.base.BaseCrudController;
-import dtos.UserDTO;
-import models.user.User;
+import models.dtos.UserDTO;
+import models.db.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import play.mvc.Result;
-import security.TokenAuth;
+import actions.security.TokenAuth;
+import services.interfaces.AuthenticationService;
 import services.interfaces.UserService;
 
 import javax.inject.Named;
@@ -20,18 +21,19 @@ public class UserController extends BaseCrudController< User > {
 
 
 	UserService userService;
-
+	AuthenticationService authenticationService;
 
 	@Autowired
-	public UserController( UserService userService ) {
+	public UserController( UserService userService, AuthenticationService authenticationService) {
 		super( userService );
 		this.userService = userService;
+		this.authenticationService = authenticationService;
 		setUpdateClass( UserDTO.class );
 	}
 
 	public Result getLoggedInUser ()
 	{
-		User user = userService.getLoggedInUser();
+		User user = authenticationService.getLoggedInUser();
 		if (user != null && user.getId() != null)
 		{
 			return ok(toJson(user));

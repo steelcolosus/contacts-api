@@ -6,7 +6,7 @@ import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 import services.exceptions.NotFoundException;
-import utils.HbUtils;
+import utils.orm.HbUtils;
 
 import javax.inject.Named;
 import java.io.Serializable;

@@ -1,6 +1,6 @@
 package repositories;
 
-import models.user.User;
+import models.db.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
