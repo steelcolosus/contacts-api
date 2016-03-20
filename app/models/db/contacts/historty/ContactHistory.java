@@ -19,6 +19,7 @@ public class ContactHistory extends AbstractEntityHistory {
     private String prefix;
     private String sufix;
     private String nickname;
+    private Boolean isFavorite;
 
 
 

@@ -10,7 +10,5 @@ import javax.persistence.Entity;
 @SuppressWarnings("serial")
 @Entity
 public class GroupHistory extends AbstractEntityHistory {
-
     private String name;
-
 }

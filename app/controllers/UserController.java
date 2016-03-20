@@ -40,5 +40,6 @@ public class UserController extends BaseCrudController< User > {
 		}
 
 		return  notFound();
+
 	}
 }

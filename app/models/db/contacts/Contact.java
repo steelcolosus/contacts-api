@@ -21,6 +21,7 @@ public class Contact extends AbstractEntity {
     private String prefix;
     private String sufix;
     private String nickname;
+    private Boolean isFavorite;
 
     @OneToMany(mappedBy = "contact", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Phone> phones;

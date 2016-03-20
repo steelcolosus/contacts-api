@@ -117,9 +117,9 @@ public abstract class AbstractService < T, I extends Serializable > implements G
 	/**
 	 * Finds person by id.
 	 *
-	 * @param id The id of the wanted person.
+	 * @param id The id of the wanted element.
 	 *
-	 * @return The found person. If no person is found, this method returns null.
+	 * @return The found person. If no element is found, this method returns null.
 	 */
 	@Transactional( readOnly = true )
 	@Override

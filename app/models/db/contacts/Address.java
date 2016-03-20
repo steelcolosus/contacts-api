@@ -15,7 +15,6 @@ import static javax.persistence.FetchType.EAGER;
 @Entity
 public class Address extends AbstractEntity {
     private String address;
-
     @ManyToOne( cascade = CascadeType.ALL,fetch = EAGER)
     private Contact contact;
 }
