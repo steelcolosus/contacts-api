@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import repositories.TokenRepository;
 import repositories.UserRepository;
 import services.base.AbstractService;
-import services.interfaces.UserService;
+import services.base.interfaces.UserService;
 
 import javax.inject.Named;
 import javax.inject.Singleton;

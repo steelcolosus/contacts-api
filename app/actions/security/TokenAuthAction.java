@@ -12,7 +12,7 @@ import play.mvc.Http;
 import play.mvc.Http.Context;
 import play.mvc.Result;
 import repositories.TokenRepository;
-import services.interfaces.AuthenticationService;
+import services.base.interfaces.contacts.AuthenticationService;
 
 import javax.inject.Named;
 

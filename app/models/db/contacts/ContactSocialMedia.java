@@ -1,9 +1,11 @@
 package models.db.contacts;
 
 import models.db.base.AbstractEntity;
+import models.db.historty.ContactSocialMediaHistory;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by eduardo on 14/03/16.
@@ -18,4 +20,29 @@ public class ContactSocialMedia extends AbstractEntity {
     private Contact contact;
     @ManyToOne
     private SocialMedia socialMedia;
+
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public Contact getContact() {
+        return contact;
+    }
+
+    public void setContact(Contact contact) {
+        this.contact = contact;
+    }
+
+    public SocialMedia getSocialMedia() {
+        return socialMedia;
+    }
+
+    public void setSocialMedia(SocialMedia socialMedia) {
+        this.socialMedia = socialMedia;
+    }
 }

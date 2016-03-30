@@ -5,7 +5,8 @@ import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 import services.base.GenericService;
-import services.exceptions.NotFoundException;
+import utils.ObjectUtils;
+import utils.exceptions.NotFoundException;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -80,7 +81,7 @@ public abstract class BaseCrudController < T > extends Controller {
 			return badRequest();
 		}
 
-		Object object = form.get();
+		T object = (T)form.get();
 
 		try {
 			object = service.update( id, object );
@@ -103,15 +104,17 @@ public abstract class BaseCrudController < T > extends Controller {
 
 		return ok();
 	}
-
-	public void objectMapper( Object src, Object target ) {
-		service.copyProperties( src, target );
-	}
-
-
 	public void setUpdateClass( Class< ? > clazz ) {
 		this.updateClazz = clazz;
 	}
+
+
+	public void objectMapper( Object src, Object target ) {
+		ObjectUtils.copyProperties( src, target );
+	}
+
+
+
 
 	public Class< ? > getUpdateClass() {
 		return this.updateClazz;

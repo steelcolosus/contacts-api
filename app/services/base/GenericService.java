@@ -1,7 +1,7 @@
 package services.base;
 
 import org.springframework.transaction.annotation.Transactional;
-import services.exceptions.NotFoundException;
+import utils.exceptions.NotFoundException;
 
 import java.io.Serializable;
 import java.util.List;
@@ -43,10 +43,10 @@ public interface GenericService<T,I extends Serializable>
      *
      * @return The updated element.
      *
-     * @throws services.exceptions.NotFoundException if no element is found with given id.
+     * @throws NotFoundException if no element is found with given id.
      */
     @Transactional( rollbackFor = NotFoundException.class )
-    public T update( I id, Object updated ) throws NotFoundException;
+    public T update( I id, T updated ) throws NotFoundException;
 
 
     /**
@@ -81,7 +81,4 @@ public interface GenericService<T,I extends Serializable>
     @Transactional(readOnly = true)
     public T findById( I id );
 
-    void copyProperties (Object src, Object target);
-
-    public String[] getNullPropertyNames (Object source);
 }

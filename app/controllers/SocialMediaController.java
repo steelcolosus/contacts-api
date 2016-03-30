@@ -4,7 +4,7 @@ import controllers.base.BaseCrudController;
 import models.db.contacts.SocialMedia;
 import org.springframework.beans.factory.annotation.Autowired;
 import actions.security.TokenAuth;
-import services.interfaces.SocialMediaService;
+import services.base.interfaces.contacts.SocialMediaService;
 
 import javax.inject.Named;
 import javax.inject.Singleton;

@@ -14,8 +14,8 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import actions.security.TokenAuth;
 import actions.security.TokenAuthAction;
-import services.interfaces.AuthenticationService;
-import services.interfaces.UserService;
+import services.base.interfaces.contacts.AuthenticationService;
+import services.base.interfaces.UserService;
 
 import javax.inject.Named;
 import javax.inject.Singleton;

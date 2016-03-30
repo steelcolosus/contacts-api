@@ -1,62 +1,36 @@
 package utils;
 
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
+
 import java.lang.reflect.Field;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by eduardo on 21/11/14.
  */
-public class ObjectUtils<T, N>
+public class ObjectUtils
 {
 
-    Class<T> original;
-    Class<N> dto;
 
-    public ObjectUtils(Class<T> original, Class<N> dto)
-    {
-        this.original = original;
-        this.dto = dto;
-    }
+    public static String[] getNullPropertyNames(Object source) {
+        final BeanWrapper src = new BeanWrapperImpl( source );
+        java.beans.PropertyDescriptor[] pds = src.getPropertyDescriptors();
 
-    public ObjectUtils(Class<T> original)
-    {
-        this.original = original;
-    }
-
-
-    public T mergeFields (T originalObject, N objectDTO)
-    {
-
-
-        for (Field field : dto.getDeclaredFields())
-        {
-
-            try
-            {
-                field.setAccessible(true);
-                String name = field.getName();
-                Object value = field.get(objectDTO);
-
-                if (value != null)
-                {
-                    Field f = original.getField(name);
-                    f.setAccessible(true);
-                    f.set(originalObject, value);
-                }
+        Set< String > emptyNames = new HashSet< String >();
+        for ( java.beans.PropertyDescriptor pd : pds ) {
+            Object srcValue = src.getPropertyValue( pd.getName() );
+            if ( srcValue == null ) {
+                emptyNames.add( pd.getName() );
             }
-            catch (IllegalAccessException e)
-            {
-                return null;
-            }
-            catch (NoSuchFieldException e)
-            {
-                return null;
-            }
-
         }
-
-
-        return originalObject;
+        String[] result = new String[emptyNames.size()];
+        return emptyNames.toArray( result );
     }
 
-
+    public static void copyProperties(Object src, Object target) {
+        BeanUtils.copyProperties( src, target, getNullPropertyNames( src ) );
+    }
 }

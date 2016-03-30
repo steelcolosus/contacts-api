@@ -1,18 +1,14 @@
 package services.base;
 
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.BeanWrapper;
-import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
-import services.exceptions.NotFoundException;
+import utils.ObjectUtils;
+import utils.exceptions.NotFoundException;
 import utils.orm.HbUtils;
 
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by eduardo on 12/03/15.
@@ -62,18 +58,18 @@ public abstract class AbstractService < T, I extends Serializable > implements G
 	 *
 	 * @return The updated element.
 	 *
-	 * @throws services.exceptions.NotFoundException if no element is found with given id.
+	 * @throws NotFoundException if no element is found with given id.
 	 */
 	@Transactional( rollbackFor = NotFoundException.class )
 	@Override
-	public T update( I id, Object updated ) throws NotFoundException {
+	public T update( I id, T updated ) throws NotFoundException {
 		T u = repo.findOne( id );
 
 		if ( u == null ) {
-			throw new NotFoundException();
+			throw new NotFoundException("couldn't update object with id "+ id);
 		}
 
-		copyProperties( updated, u );
+		ObjectUtils.copyProperties( updated, u );
 
 		u = repo.save( u );
 
@@ -95,7 +91,7 @@ public abstract class AbstractService < T, I extends Serializable > implements G
 	public boolean delete( I id ) throws NotFoundException {
 		T o = repo.getOne( id );
 		if ( o == null ) {
-			throw new NotFoundException();
+			throw new NotFoundException("Couldn't delete object with id: "+id);
 		} else {
 			repo.delete( o );
 		}
@@ -132,26 +128,7 @@ public abstract class AbstractService < T, I extends Serializable > implements G
 		}
 	}
 
-	@Override
-	public String[] getNullPropertyNames( Object source ) {
-		final BeanWrapper src = new BeanWrapperImpl( source );
-		java.beans.PropertyDescriptor[] pds = src.getPropertyDescriptors();
-
-		Set< String > emptyNames = new HashSet< String >();
-		for ( java.beans.PropertyDescriptor pd : pds ) {
-			Object srcValue = src.getPropertyValue( pd.getName() );
-			if ( srcValue == null ) {
-				emptyNames.add( pd.getName() );
-			}
-		}
-		String[] result = new String[emptyNames.size()];
-		return emptyNames.toArray( result );
-	}
 
 	// then use Spring BeanUtils to copy and ignore null
-	@Override
-	public void copyProperties( Object src, Object target ) {
-		BeanUtils.copyProperties( src, target, getNullPropertyNames( src ) );
-	}
 
 }

@@ -12,14 +12,15 @@ import java.util.Date;
 public class AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long id;
+    private Long id;
 
     @JsonIgnore
     @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", insertable = false, updatable = false)
-    public Date creationDate;
+    private Date creationDate;
+
     @JsonIgnore
     @Version
-    public Date lastModifiedDate;
+    private Date lastModifiedDate;
 
     /**
      * Returns the identifier of the entity.

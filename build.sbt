@@ -8,6 +8,7 @@ scalaVersion := "2.11.1"
 
 libraryDependencies ++= Seq(
   javaCore,
+  cache,
   javaJpa,
   "org.springframework" % "spring-context" % "4.1.6.RELEASE",
   "javax.inject" % "javax.inject" % "1",

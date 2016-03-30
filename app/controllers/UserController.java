@@ -6,8 +6,8 @@ import models.db.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import play.mvc.Result;
 import actions.security.TokenAuth;
-import services.interfaces.AuthenticationService;
-import services.interfaces.UserService;
+import services.base.interfaces.contacts.AuthenticationService;
+import services.base.interfaces.UserService;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
