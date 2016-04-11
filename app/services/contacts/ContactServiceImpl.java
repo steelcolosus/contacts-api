@@ -7,9 +7,8 @@ import models.db.historty.VersionHistory;
 import models.dtos.ContactDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-
 import play.libs.F;
-import repositories.contacts.*;
+import repositories.contacts.ContactRepository;
 import services.base.AbstractService;
 import services.base.interfaces.UserService;
 import services.base.interfaces.contacts.*;
@@ -167,7 +166,6 @@ public class ContactServiceImpl extends AbstractService<Contact, Long> implement
         if (contacts == null || contacts.isEmpty())
             throw new NotFoundException("Can't find contacts for specified userId: " + userId);
         List<ContactDTO> contactDTOList = new ArrayList<>();
-
         for (Contact contact : contacts) {
             contactDTOList.add(getContact(contact.getId()));
         }
@@ -201,10 +199,10 @@ public class ContactServiceImpl extends AbstractService<Contact, Long> implement
     @Override
     public List<ContactDTO> getFavorites(long userId) throws NotFoundException {
         List<Contact> contacts = contactRepository.findFavoriteContacts(userId);
-        if(contacts == null)
-            throw new NotFoundException("No contacts found for user id: "+userId);
+        if (contacts == null)
+            throw new NotFoundException("No contacts found for user id: " + userId);
         List<ContactDTO> contactDTOList = new ArrayList<>();
-        for(Contact contact : contacts){
+        for (Contact contact : contacts) {
             contactDTOList.add(getContact(contact.getId()));
         }
         return contactDTOList;
@@ -213,10 +211,10 @@ public class ContactServiceImpl extends AbstractService<Contact, Long> implement
     @Override
     public List<ContactDTO> getLastTenSearches(long userId) throws NotFoundException {
         List<Contact> contacts = contactRepository.findLastTenSearchedContacts(userId);
-        if(contacts == null)
-            throw new NotFoundException("No contacts found for user id: "+userId);
+        if (contacts == null)
+            throw new NotFoundException("Trying to get top 10 searches, No contacts found for user id: " + userId);
         List<ContactDTO> contactDTOList = new ArrayList<>();
-        for(Contact contact : contacts){
+        for (Contact contact : contacts) {
             contactDTOList.add(getContact(contact.getId()));
         }
         return contactDTOList;
@@ -225,10 +223,10 @@ public class ContactServiceImpl extends AbstractService<Contact, Long> implement
     @Override
     public List<ContactDTO> getMostSearchedContacts(long userId) throws NotFoundException {
         List<Contact> contacts = contactRepository.findMostSearchedContacts(userId);
-        if(contacts == null)
-            throw new NotFoundException("No contacts found for user id: "+userId);
+        if (contacts == null)
+            throw new NotFoundException("Fetching Most searched contacts, No contacts found for user id: " + userId);
         List<ContactDTO> contactDTOList = new ArrayList<>();
-        for(Contact contact : contacts){
+        for (Contact contact : contacts) {
             contactDTOList.add(getContact(contact.getId()));
         }
         return contactDTOList;
@@ -238,7 +236,7 @@ public class ContactServiceImpl extends AbstractService<Contact, Long> implement
     public ContactDTO revertToPreviousVersion(long contactId) throws NotFoundException {
         Optional<VersionHistory> _versionHistory = versionHistoryService.getPreviousVersion(contactId);
         if (!_versionHistory.isPresent())
-            throw new NotFoundException("No Version history found for contact id: "+contactId);
+            throw new NotFoundException("No Version history found for contact id: " + contactId);
         clearContact(contactId);
         ContactDTO contactDTO = versionHistoryService.getContact(_versionHistory.get().getId());
         contactDTO = saveContact(contactDTO);
@@ -249,7 +247,7 @@ public class ContactServiceImpl extends AbstractService<Contact, Long> implement
     public ContactDTO revertToVersion(long versionId) throws NotFoundException {
         VersionHistory _versionHistory = versionHistoryService.findById(versionId);
         if (_versionHistory == null)
-            throw new NotFoundException("No Version history found for version id: "+versionId);
+            throw new NotFoundException("No Version history found for version id: " + versionId);
         Contact contact = contactRepository.findOne(_versionHistory.getContactId());
         Long contactId = contact.getId();
         clearContact(contactId);
@@ -286,7 +284,7 @@ public class ContactServiceImpl extends AbstractService<Contact, Long> implement
             original.setNickname(update.getNickname());
         if (update.getSufix() != null)
             original.setSufix(update.getSufix());
-        if (update.getFavorite() != null && update.getFavorite())
+        if (update.getFavorite() != null && !update.getFavorite())
             original.setFavorite(update.getFavorite());
         return original;
     }

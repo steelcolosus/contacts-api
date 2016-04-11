@@ -34,8 +34,6 @@ public class ContactController extends Controller {
 
     ContactService contactService;
 
-
-
     @Autowired
     public ContactController(ContactService contactService) {
         this.contactService = contactService;
@@ -67,7 +65,6 @@ public class ContactController extends Controller {
         } catch (NotFoundException e) {
             return badRequest();
         }
-
     }
 
     public Result delete(long contactId) {
@@ -75,7 +72,7 @@ public class ContactController extends Controller {
             boolean deleted = contactService.deleteContact(contactId);
             return ok(toJson(deleted));
         } catch (NotFoundException e) {
-            return badRequest();
+            return badRequest(toJson(e.getMessage()));
         }
     }
 
@@ -105,7 +102,7 @@ public class ContactController extends Controller {
             List<ContactDTO> contacts = contactService.getAllContacts(userId);
             return ok(toJson(contacts));
         } catch (NotFoundException e) {
-            return ok();
+            return notFound(toJson(e.getMessage()));
         }
     }
 
@@ -124,7 +121,7 @@ public class ContactController extends Controller {
             contactService.addToFavorite(contactId);
             return ok();
         } catch (NotFoundException e) {
-            return notFound(toJson(e.getStackTrace().toString()));
+            return notFound(toJson(e.getMessage()));
         }
     }
 
@@ -134,7 +131,7 @@ public class ContactController extends Controller {
             topTen = contactService.getLastTenSearches(userId);
             return ok(toJson(topTen));
         } catch (NotFoundException e) {
-            return notFound(toJson(e.getStackTrace().toString()));
+            return notFound(toJson(e.getMessage()));
         }
 
     }
@@ -145,7 +142,7 @@ public class ContactController extends Controller {
             mostSearched = contactService.getMostSearchedContacts(userId);
             return ok(toJson(mostSearched));
         } catch (NotFoundException e) {
-            return notFound(toJson(e.getStackTrace().toString()));
+            return notFound(toJson(e.getMessage()));
         }
 
     }
@@ -155,7 +152,7 @@ public class ContactController extends Controller {
             ContactDTO contact = contactService.revertToPreviousVersion(contactId);
             return ok(toJson(contact));
         } catch (NotFoundException e) {
-            return badRequest(e.getMessage());
+            return notFound(toJson(e.getMessage()));
         }
 
     }
