@@ -20,7 +20,7 @@ public class Address extends AbstractEntity {
     private String address;
 
     @JsonIgnore
-    @ManyToOne( cascade = CascadeType.ALL,fetch = EAGER)
+    @ManyToOne
     private Contact contact;
 
     public String getAddress() {

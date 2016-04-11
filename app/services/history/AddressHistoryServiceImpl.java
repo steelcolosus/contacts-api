@@ -6,8 +6,10 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
+import repositories.contacts.AddressRepository;
 import repositories.history.AddressHistoryRepository;
 import services.base.AbstractService;
+import services.base.interfaces.contacts.AddressService;
 import services.base.interfaces.history.AddressHistoryService;
 import utils.exceptions.NotFoundException;
 
@@ -28,6 +30,7 @@ public class AddressHistoryServiceImpl extends AbstractService<AddressHistory,Lo
 
     AddressHistoryRepository addressHistoryRepository;
 
+
     @Autowired
     public AddressHistoryServiceImpl(AddressHistoryRepository addressHistoryRepository) {
         super(addressHistoryRepository);
@@ -36,15 +39,21 @@ public class AddressHistoryServiceImpl extends AbstractService<AddressHistory,Lo
 
     @Override
     public UUID newVersion(Address address, UUID version, boolean markAsDeleted) {
+
         AddressHistory addressHistory  = new AddressHistory();
         addressHistory.setAddress(address.getAddress());
         addressHistory.setAddressId(address.getId());
         addressHistory.setVersion(version);
         if(markAsDeleted)
             addressHistory.setDeletedAt(DateTime.now().toDate());
+
+
+
         save(addressHistory);
         return addressHistory.getVersion();
     }
+
+
 
     @Override
     public Optional<AddressHistory> getPreviousVersion(Long addressId) {
@@ -63,7 +72,7 @@ public class AddressHistoryServiceImpl extends AbstractService<AddressHistory,Lo
         for(AddressHistory addressHistory : addressHistoryList) {
             Address address = new Address();
             address.setAddress(addressHistory.getAddress());
-            address.setId(addressHistory.getAddressId());
+            //address.setId(addressHistory.getAddressId());
             addresses.add(address);
         }
         return addresses;
