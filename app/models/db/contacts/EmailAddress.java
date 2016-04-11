@@ -21,7 +21,7 @@ public class EmailAddress extends AbstractEntity {
     private String email;
 
     @JsonIgnore
-    @ManyToOne( cascade = CascadeType.ALL,fetch = EAGER)
+    @ManyToOne
     private Contact contact;
 
 

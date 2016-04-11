@@ -24,38 +24,21 @@ public class Contact extends AbstractEntity {
     private String sufix;
     private String nickname;
     private Boolean isFavorite;
-    private Date deletedAt;
+    private boolean isDeleted;
 
     @JsonIgnore
     private long hit;
 
-
-
+    @JsonIgnore
     @ManyToOne
     private User user;
 
-    @OneToMany(mappedBy = "contact", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Phone> phones = new ArrayList<>();
-
-    @OneToMany(mappedBy = "contact", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<ContactGroup> contactGroups= new ArrayList<>();
-
-    @OneToMany(mappedBy = "contact", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<EmailAddress> emailAddresses= new ArrayList<>();
-
-    @OneToMany(mappedBy = "contact", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<ContactSocialMedia> socialMediaList= new ArrayList<>();
-
-    @OneToMany(mappedBy = "contact", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Address> contactAdressList= new ArrayList<>();
-
-
-    public Date getDeletedAt() {
-        return deletedAt;
+    public boolean isDeleted() {
+        return isDeleted;
     }
 
-    public void setDeletedAt(Date deletedAt) {
-        this.deletedAt = deletedAt;
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 
     public long getHit() {
@@ -130,43 +113,5 @@ public class Contact extends AbstractEntity {
         isFavorite = favorite;
     }
 
-    public List<Phone> getPhones() {
-        return phones;
-    }
 
-    public void setPhones(List<Phone> phones) {
-        this.phones = phones;
-    }
-
-    public List<ContactGroup> getContactGroups() {
-        return contactGroups;
-    }
-
-    public void setContactGroups(List<ContactGroup> contactGroups) {
-        this.contactGroups = contactGroups;
-    }
-
-    public List<EmailAddress> getEmailAddresses() {
-        return emailAddresses;
-    }
-
-    public void setEmailAddresses(List<EmailAddress> emailAddresses) {
-        this.emailAddresses = emailAddresses;
-    }
-
-    public List<ContactSocialMedia> getSocialMediaList() {
-        return socialMediaList;
-    }
-
-    public void setSocialMediaList(List<ContactSocialMedia> socialMediaList) {
-        this.socialMediaList = socialMediaList;
-    }
-
-    public List<Address> getContactAdressList() {
-        return contactAdressList;
-    }
-
-    public void setContactAdressList(List<Address> contactAdressList) {
-        this.contactAdressList = contactAdressList;
-    }
 }

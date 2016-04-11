@@ -1,5 +1,6 @@
 package models.db.contacts;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import models.db.base.AbstractEntity;
 import models.db.historty.PhoneHistory;
 
@@ -8,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.FetchType.EAGER;
+import static javax.persistence.FetchType.LAZY;
+
 /**
  * Created by eduardo on 14/03/16.
  */
@@ -18,7 +21,8 @@ public class Phone extends AbstractEntity {
     private String label;
     private String phoneNumber;
 
-    @ManyToOne( cascade = CascadeType.ALL,fetch = EAGER)
+    @JsonIgnore
+    @ManyToOne
     private Contact contact;
 
 
