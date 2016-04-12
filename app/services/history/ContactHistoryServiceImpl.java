@@ -71,6 +71,9 @@ public class ContactHistoryServiceImpl extends AbstractService<ContactHistory, L
     @Override
     public Contact getContact(UUID versionId) throws NotFoundException {
         ContactHistory contactHistory = contactHistoryRepository.findByVersion(versionId);
+        if(contactHistory==null)
+            throw new NotFoundException("contact with versionId: "+ versionId +" not found");
+
         Contact contact = new Contact();
         contact.setFirstName(contactHistory.getFirstName());
         contact.setFavorite(contactHistory.getFavorite());

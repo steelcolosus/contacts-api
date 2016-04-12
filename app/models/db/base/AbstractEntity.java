@@ -22,6 +22,7 @@ public class AbstractEntity {
     @Version
     private Date lastModifiedDate;
 
+
     /**
      * Returns the identifier of the entity.
      *
@@ -50,6 +51,8 @@ public class AbstractEntity {
     public void setLastModifiedDate(Date lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
+
+
 
     @Override
     public boolean equals(Object obj) {

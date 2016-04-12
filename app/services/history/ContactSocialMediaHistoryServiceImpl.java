@@ -31,14 +31,14 @@ import java.util.UUID;
 public class ContactSocialMediaHistoryServiceImpl extends AbstractService<ContactSocialMediaHistory,Long> implements ContactSocialMediaHistoryService {
 
     ContactSocialMediaHistoryRepository contactSocialMediaHistoryRepository;
-    SocialMediaService socialMediaService;
+    SocialMediaRepository socialMediaRepository;
 
 
     @Autowired
-    public ContactSocialMediaHistoryServiceImpl(ContactSocialMediaHistoryRepository contactSocialMediaHistoryRepository,SocialMediaService socialMediaService) {
+    public ContactSocialMediaHistoryServiceImpl(ContactSocialMediaHistoryRepository contactSocialMediaHistoryRepository,SocialMediaRepository socialMediaRepository) {
         super(contactSocialMediaHistoryRepository);
         this.contactSocialMediaHistoryRepository = contactSocialMediaHistoryRepository;
-        this.socialMediaService = socialMediaService;
+        this.socialMediaRepository = socialMediaRepository;
     }
 
     @Override
@@ -67,12 +67,12 @@ public class ContactSocialMediaHistoryServiceImpl extends AbstractService<Contac
         List<ContactSocialMedia>  contactSocialMediaList = new ArrayList();
         for(ContactSocialMediaHistory contactSocialMediaHistory : contactSocialMediaHistoryList){
             ContactSocialMedia contactSocialMedia = new ContactSocialMedia();
-            SocialMedia socialMedia = socialMediaService.findById(contactSocialMediaHistory.getSocialMediaId());
+            SocialMedia socialMedia = socialMediaRepository.findOne(contactSocialMediaHistory.getSocialMediaId());
             if(socialMedia==null)
                 throw new NotFoundException("Social media element with id: "+contactSocialMediaHistory.getSocialMediaId());
             contactSocialMedia.setSocialMedia(socialMedia);
             contactSocialMedia.setUrl(contactSocialMediaHistory.getUrl());
-            contactSocialMedia.setId(contactSocialMediaHistory.getContactSocialMediaId());
+            //contactSocialMedia.setId(contactSocialMediaHistory.getContactSocialMediaId());
             contactSocialMediaList.add(contactSocialMedia);
         }
 

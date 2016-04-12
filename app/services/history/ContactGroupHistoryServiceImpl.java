@@ -1,8 +1,7 @@
 package services.history;
 
-import models.db.contacts.Contact;
 import models.db.contacts.ContactGroup;
-import models.db.contacts.Group;
+import models.db.contacts.CGroup;
 import models.db.historty.ContactGroupHistory;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,11 +62,11 @@ public class ContactGroupHistoryServiceImpl extends AbstractService<ContactGroup
         List<ContactGroup> contactGroups = new ArrayList<>();
         for (ContactGroupHistory contactGroupHistory : contactGroupHistoryList) {
             ContactGroup contactGroup = new ContactGroup();
-            Group group = groupRepository.findOne(contactGroupHistory.getGroupId());
-            if (group == null)
+            CGroup CGroup = groupRepository.findOne(contactGroupHistory.getGroupId());
+            if (CGroup == null)
                 throw new NotFoundException("Group element not found with id: " + contactGroupHistory.getGroupId());
-            contactGroup.setGroup(group);
-            contactGroup.setId(contactGroupHistory.getContactGroupId());
+            contactGroup.setCGroup(CGroup);
+            //contactGroup.setId(contactGroupHistory.getContactGroupId());
             contactGroups.add(contactGroup);
 
         }

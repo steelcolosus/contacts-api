@@ -5,21 +5,95 @@
 # Home page
 
 # Map static resources from the /public folder to the /assets URL path
-GET            /assets/*file                                      controllers.Assets.at(path="/public", file)
+GET            /assets/*file                                   controllers.Assets.at(path="/public", file)
 
 #Security
-POST           /signup                                            @controllers.SecurityController.signUp()
-POST           /login                                             @controllers.SecurityController.login()
-GET            /logout                                            @controllers.SecurityController.logout()
+POST           /signup                                         @controllers.SecurityController.signUp()
+POST           /login                                          @controllers.SecurityController.login()
+GET            /logout                                         @controllers.SecurityController.logout()
 
 #User
-GET            /users/current                                     @controllers.UserController.getLoggedInUser()
-GET            /users                                             @controllers.UserController.getAll()
-GET            /users/:userId                                     @controllers.UserController.get(userId: Long)
-PUT            /users/:userId                                     @controllers.UserController.update(userId: Long)
-DELETE         /users/:userId                                     @controllers.UserController.delete(userId: Long)
+GET            /users/current                                  @controllers.UserController.getLoggedInUser()
+GET            /users                                          @controllers.UserController.getAll()
+GET            /users/:userId                                  @controllers.UserController.get(userId: Long)
+PUT            /users/:userId                                  @controllers.UserController.update(userId: Long)
+DELETE         /users/:userId                                  @controllers.UserController.delete(userId: Long)
 
-OPTIONS        /*path                                             @controllers.Application.checkPreFlight(path: String)
 
-GET            /                                                  @controllers.Application.index()
+#Contacts
+POST           /users/:userId/contacts                         @controllers.ContactController.save(userId: Long)
+GET            /users/:userId/contacts                         @controllers.ContactController.getAllContacts(userId: Long)
+GET            /contacts/:contactId                            @controllers.ContactController.getContact(contactId: Long)
+PUT            /contacts/:contactId                            @controllers.ContactController.update(contactId: Long)
+DELETE         /contacts/:contactId                            @controllers.ContactController.delete(contactId: Long)
+
+#Merge contact
+PUT            /contacts/merge/:originalId/:updateId           @controllers.ContactController.merge(originalId: Long, updateId: Long)
+
+#Favorite Contacts
+GET            /users/:userId/contacts/favorites               @controllers.ContactController.getFavoriteContacts(userId: Long)
+PUT            /contacts/favorites/:contactId                  @controllers.ContactController.addFavorite(contactId: Long)
+DELETE         /contacts/favorites/:contactId                  @controllers.ContactController.removeFavorite(contactId: Long)
+
+#Searched contacts
+GET            /users/:userId/topten                           @controllers.ContactController.getLastTenSearchedContacts(userId: Long)
+GET            /users/:userId/mostsearched                     @controllers.ContactController.getMostSearchedContacts(userId: Long)
+
+#Versioning
+
+#Revert contact to previeous version
+GET            /contact/:contactId/rollback                    @controllers.ContactController.revertContactToPreviousVersion(contactId: Long)
+GET            /contact/:contactId/versions                    @controllers.ContactController.getContactVersions(contactId: Long)
+GET            /contact/versions/:versionId                    @controllers.ContactController.revertToVersion(versionId: Long)
+
+
+#Address
+POST           /contact/:contactId/addresses                   @controllers.AddressController.save(contactId: Long)
+PUT            /contact/:contactId/addresses                   @controllers.AddressController.update(contactId: Long)
+DELETE         /contact/:contactId/addresses                   @controllers.AddressController.delete(contactId: Long)
+
+
+#Phone
+POST           /contact/:contactId/phones                      @controllers.PhoneController.save(contactId: Long)
+PUT            /contact/:contactId/phones                      @controllers.PhoneController.update(contactId: Long)
+DELETE         /contact/:contactId/phones                      @controllers.PhoneController.delete(contactId: Long)
+
+#Email
+POST           /contact/:contactId/emails                      @controllers.EmailAddressController.save(contactId: Long)
+PUT            /contact/:contactId/phones                      @controllers.EmailAddressController.update(contactId: Long)
+DELETE         /contact/:contactId/phones                      @controllers.EmailAddressController.delete(contactId: Long)
+
+#Contact Group
+PUT            /contact/:contactId/group/:groupId              @controllers.ContactGroupController.save(contactId: Long, groupId: Long)
+PUT            /contact/group/:groupId                         @controllers.ContactGroupController.update(groupId: Long)
+DELETE         /contact/group/:groupId                         @controllers.ContactGroupController.delete(groupId: Long)
+
+#Contact SocialMedia
+PUT            /contact/:contactId/media/:socialMediaId        @controllers.ContactSocialMediaController.save(contactId: Long, socialMediaId: Long)
+PUT            /contact/media/:socialMediaId                   @controllers.ContactSocialMediaController.update(socialMediaId: Long)
+DELETE         /contact/media/:socialMediaId                   @controllers.ContactSocialMediaController.delete(socialMediaId: Long)
+
+
+#Group
+GET            /groups/:id                                     @controllers.GroupController.get(id: Long)
+GET            /groups                                         @controllers.GroupController.getAll()
+DELETE         /groups/:id                                     @controllers.GroupController.delete(id: Long)
+POST           /groups                                         @controllers.GroupController.create()
+POST           /groups/bulk                                    @controllers.GroupController.createAll()
+PUT            /groups/:id                                     @controllers.GroupController.update(id: Long)
+
+
+#SocialMedia
+GET            /socialmedias/:id                               @controllers.SocialMediaController.get(id: Long)
+GET            /socialmedias                                   @controllers.SocialMediaController.getAll()
+DELETE         /socialmedias/:id                               @controllers.SocialMediaController.delete(id: Long)
+POST           /socialmedias                                   @controllers.SocialMediaController.create()
+POST           /socialmedias/bulk                              @controllers.SocialMediaController.createAll()
+PUT            /socialmedias/:id                               @controllers.SocialMediaController.update(id: Long)
+
+
+
+OPTIONS        /*path                                          @controllers.Application.checkPreFlight(path: String)
+
+GET            /                                               @controllers.Application.index()
 

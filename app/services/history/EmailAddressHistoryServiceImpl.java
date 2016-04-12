@@ -60,7 +60,7 @@ public class EmailAddressHistoryServiceImpl extends AbstractService<EmailAddress
         for(EmailAddressHistory emailAddressHistory : contactEmailAddress){
             EmailAddress emailAddress = new EmailAddress();
             emailAddress.setEmail(emailAddressHistory.getEmailAddress());
-            emailAddress.setId(emailAddressHistory.getBaseEmailAddressId());
+            //emailAddress.setId(emailAddressHistory.getBaseEmailAddressId());
             emailAddressList.add(emailAddress);
 
         }

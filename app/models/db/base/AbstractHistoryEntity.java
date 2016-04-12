@@ -15,7 +15,7 @@ public class AbstractHistoryEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-
+    @Column( columnDefinition = "BINARY(16)", length = 16 )
     private UUID version;
 
     private Date deletedAt;
