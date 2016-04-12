@@ -33,6 +33,7 @@ PUT            /contacts/merge/:originalId/:updateId           @controllers.Cont
 #Favorite Contacts
 GET            /users/:userId/contacts/favorites               @controllers.ContactController.getFavoriteContacts(userId: Long)
 PUT            /contacts/favorites/:contactId                  @controllers.ContactController.addFavorite(contactId: Long)
+DELETE         /contacts/favorites/:contactId                  @controllers.ContactController.removeFavorite(contactId: Long)
 
 #Searched contacts
 GET            /users/:userId/topten                           @controllers.ContactController.getLastTenSearchedContacts(userId: Long)

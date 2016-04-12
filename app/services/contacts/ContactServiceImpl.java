@@ -143,7 +143,7 @@ public class ContactServiceImpl extends AbstractService<Contact, Long> implement
     public void addToFavorite(long contactId) throws NotFoundException {
         Contact contact = contactRepository.findOne(contactId);
         if (contact == null)
-            throw new NotFoundException("contact not found with id: " + contactId);
+            throw new NotFoundException("contact not found while trying to add to favorite with id: " + contactId);
         contact.setFavorite(true);
         save(contact);
     }
@@ -187,12 +187,13 @@ public class ContactServiceImpl extends AbstractService<Contact, Long> implement
         List<ContactSocialMedia> contactSocialMediaList = contactSocialMediaService.mergeContactSocialMedia(original, updateContactDTO.getSocialMediaList());
         List<Address> addressList = addressService.mergeContactAddress(original, updateContactDTO.getContactAdressList());
         Contact mergedContact = contactRepository.save(newContact);
-        F.Promise.promise(() -> versionHistoryService.newVersion(newContact, addressList, contactGroupList, contactSocialMediaList, phoneList, emailAddressList, false));
+        F.Promise.promise(() -> versionHistoryService.newVersion(mergedContact, addressList, contactGroupList, contactSocialMediaList, phoneList, emailAddressList, false));
         originalContactDTO.setContactAdressList(addressList);
         originalContactDTO.setContactGroups(contactGroupList);
         originalContactDTO.setEmailAddresses(emailAddressList);
         originalContactDTO.setPhones(phoneList);
         originalContactDTO.setSocialMediaList(contactSocialMediaList);
+        deleteContact(updateId);
         return originalContactDTO;
     }
 
@@ -319,11 +320,13 @@ public class ContactServiceImpl extends AbstractService<Contact, Long> implement
         contactDTO.setId(contact.getId());
         contactDTO.setUserId(contact.getUser().getId());
         contactDTO.setDeleted(contact.isDeleted());
+
         contactDTO.setContactAdressList(addressService.findByContactId(contactId));
         contactDTO.setContactGroups(contactGroupService.findByContactId(contactId));
         contactDTO.setEmailAddresses(emailAddressService.findByContactId(contactId));
         contactDTO.setPhones(phoneService.findByContactId(contactId));
         contactDTO.setContactAdressList(addressService.findByContactId(contactId));
+
         return contactDTO;
     }
 }

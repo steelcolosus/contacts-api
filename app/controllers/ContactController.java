@@ -28,7 +28,7 @@ import static play.libs.Json.toJson;
 
 @Named
 @Singleton
-//@TokenAuth
+@TokenAuth
 public class ContactController extends Controller {
 
 
@@ -39,10 +39,22 @@ public class ContactController extends Controller {
         this.contactService = contactService;
     }
 
+    public  Result removeFavorite(long contactId) {
+        Contact contact = contactService.findById(contactId);
+        contact.setFavorite(false);
+        try {
+            contactService.updateContact(contactId,contact);
+            return ok();
+        } catch (NotFoundException e) {
+           return notFound(e.getMessage());
+        }
+
+    }
+
     public Result save(long userId) {
         Form<ContactDTO> form = Form.form(ContactDTO.class).bindFromRequest();
         if (form.hasErrors())
-            return badRequest();
+            return badRequest(toJson(form.errorsAsJson()));
         ContactDTO contact = form.get();
         try {
             contact.setUserId(userId);
@@ -57,7 +69,7 @@ public class ContactController extends Controller {
     public Result update(long contactId) {
         Form<Contact> form = Form.form(Contact.class).bindFromRequest();
         if (form.hasErrors())
-            return badRequest();
+            return badRequest(form.errorsAsJson());
         Contact contact = form.get();
         try {
             Contact updated = contactService.updateContact(contactId, contact);

@@ -1,5 +1,6 @@
 package controllers;
 
+import actions.security.TokenAuth;
 import models.db.contacts.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import play.data.Form;
@@ -19,7 +20,7 @@ import static play.libs.Json.toJson;
 
 @Named
 @Singleton
-//@TokenAuth
+@TokenAuth
 public class ContactSocialMediaController extends Controller {
 
 

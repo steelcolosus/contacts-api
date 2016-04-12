@@ -1,5 +1,6 @@
 package controllers;
 
+import actions.security.TokenAuth;
 import models.db.contacts.Address;
 import models.db.contacts.Contact;
 import models.db.contacts.Phone;
@@ -20,7 +21,7 @@ import static play.libs.Json.toJson;
 
 @Named
 @Singleton
-//@TokenAuth
+@TokenAuth
 public class PhoneController extends Controller {
 
 
