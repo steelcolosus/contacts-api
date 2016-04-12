@@ -40,6 +40,7 @@ public class PhoneHistoryServiceImpl extends AbstractService<PhoneHistory,Long> 
 
         PhoneHistory phoneHistory = new PhoneHistory();
         phoneHistory.setPhoneId(phone.getId());
+        phoneHistory.setLabel(phone.getLabel());
         phoneHistory.setPhoneNumber(phone.getPhoneNumber());
         phoneHistory.setVersion(version);
         if(markAsDeleted)
@@ -62,7 +63,7 @@ public class PhoneHistoryServiceImpl extends AbstractService<PhoneHistory,Long> 
             Phone phone = new Phone();
             phone.setLabel(phoneHistory.getLabel());
             phone.setPhoneNumber(phoneHistory.getPhoneNumber());
-            phone.setId(phoneHistory.getPhoneId());
+            //phone.setId(phoneHistory.getPhoneId());
             phoneList.add(phone);
         }
         return phoneList;

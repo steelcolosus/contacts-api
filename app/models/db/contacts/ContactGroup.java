@@ -1,11 +1,8 @@
 package models.db.contacts;
 
 import models.db.base.AbstractEntity;
-import models.db.historty.ContactGroupHistory;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by eduardo on 14/03/16.
@@ -17,7 +14,7 @@ public class ContactGroup extends AbstractEntity {
     @ManyToOne
     private Contact contact;
     @ManyToOne
-    private Group group;
+    private CGroup group;
 
 
     public Contact getContact() {
@@ -28,11 +25,11 @@ public class ContactGroup extends AbstractEntity {
         this.contact = contact;
     }
 
-    public Group getGroup() {
+    public CGroup getCGroup() {
         return group;
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
+    public void setCGroup(CGroup CGroup) {
+        this.group = CGroup;
     }
 }

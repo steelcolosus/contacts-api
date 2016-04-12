@@ -1,5 +1,6 @@
 package services.base;
 
+import models.db.base.AbstractEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 import utils.ObjectUtils;
@@ -77,6 +78,11 @@ public abstract class AbstractService < T, I extends Serializable > implements G
 
 	}
 
+	@Override
+	public void delete(Iterable<T> elements){
+		repo.delete(elements);
+	}
+
 	/**
 	 * Deletes a person.
 	 *
@@ -89,15 +95,20 @@ public abstract class AbstractService < T, I extends Serializable > implements G
 	@Transactional( rollbackFor = NotFoundException.class )
 	@Override
 	public boolean delete( I id ) throws NotFoundException {
+
 		T o = repo.getOne( id );
 		if ( o == null ) {
 			throw new NotFoundException("Couldn't delete object with id: "+id);
 		} else {
 			repo.delete( o );
+
 		}
 
 		return true;
 	}
+
+
+
 
 	/**
 	 * Finds all persons.

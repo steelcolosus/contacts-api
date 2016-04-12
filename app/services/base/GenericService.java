@@ -21,7 +21,7 @@ public interface GenericService<T,I extends Serializable>
 
     @Transactional
 
-    public Iterable< T > save( Iterable< T > entity );
+    Iterable< T > save( Iterable< T > entity );
 
 
     /**
@@ -34,7 +34,7 @@ public interface GenericService<T,I extends Serializable>
 
     @Transactional
 
-    public T save( T entity );
+    T save( T entity );
 
     /**
      * Updates the information of a element.
@@ -50,7 +50,7 @@ public interface GenericService<T,I extends Serializable>
 
 
     /**
-     * Deletes a person.
+     * Deletes an element.
      *
      * @param id The id of the deleted person.
      *
@@ -62,19 +62,22 @@ public interface GenericService<T,I extends Serializable>
     public boolean delete( I id ) throws NotFoundException;
 
 
+    void delete(Iterable<T> elements);
+
+
     /**
-     * Finds all persons.
+     * Finds all elements.
      *
-     * @return A list of persons.
+     * @return A list of elements.
      */
     @Transactional(readOnly = true)
     public List< T > findAll();
 
 
     /**
-     * Finds person by id.
+     * Finds element by id.
      *
-     * @param id The id of the wanted person.
+     * @param id The id of the wanted element.
      *
      * @return The found person. If no person is found, this method returns null.
      */

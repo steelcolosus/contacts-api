@@ -15,15 +15,9 @@ import java.util.List;
  */
 @SuppressWarnings("serial")
 @Entity
-public class Group extends AbstractEntity {
+public class CGroup extends AbstractEntity {
 
     private String name;
-
-
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<ContactGroup> contactList= new ArrayList<>();
 
     public String getName() {
         return name;
@@ -33,11 +27,4 @@ public class Group extends AbstractEntity {
         this.name = name;
     }
 
-    public List<ContactGroup> getContactList() {
-        return contactList;
-    }
-
-    public void setContactList(List<ContactGroup> contactList) {
-        this.contactList = contactList;
-    }
 }
